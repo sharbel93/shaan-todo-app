@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoDataService } from './service/todo-data.service';
 import { Todo } from './resource/todo';
 @Component({
@@ -7,33 +7,47 @@ import { Todo } from './resource/todo';
   styleUrls: ['./app.component.css'],
   providers: [TodoDataService]
 })
-export class AppComponent {
-  title = 'app';
-  // We first define a newTodo property and assign a new Todo() when the component class is instantiated.
-  // This is the same Todo instance specified in the two-way binding expression of [(ngModel)] in our view:
-  newTodo: Todo = new Todo();
-  // Whenever the input value changes in the view, the value in the component instance is updated.
-  // And whenever the value in the component instance changes, the value in the input element in the view is updated.
+export class AppComponent implements  OnInit {
+
+ todos: Todo[] = [];
 
  // Ask Angular DI system to inject the dependency
   // associated with the dependency injection token `TodoDataService`
   // and assign it to a property called `todoDataService`
   constructor (private todoDataService: TodoDataService) {}
 
+  public ngOnInit() {
+    this.todoDataService.getAllTodos()
+    .subscribe(
+      (todos) => {
+        console.log(todos);
+        this.todos = todos; }
+    );
+  }
+
+  onAddTodo(todo: Todo) {
+    this.todoDataService.addTodo(todo)
+    .subscribe((newTodo) => {
+      this.todos = this.todos.concat(newTodo);
+    });
+  }
+
   // Service is now available as this.todoDataService
-  toggleTodoComplete(todo) {
-    this.todoDataService.toggleTodoComplete(todo);
-  }
-  addTodo() {
-    this.todoDataService.addTodo(this.newTodo);
-    this.newTodo = new Todo();
-  }
-
-  removeTodo(todo) {
-    this.todoDataService.deleteTodoById(todo.id);
+  onToggleTodoComplete(todo: Todo) {
+    this.todoDataService.toggleTodoComplete(todo).subscribe((updatedTodo) => {
+      console.log(updatedTodo);
+      todo = updatedTodo;
+    });
   }
 
-  get todos() {
-    return this.todoDataService.getAllTodos();
+  onRemoveTodo(todo: Todo) {
+    this.todoDataService.deleteTodoById(todo.id)
+    .subscribe((_) => {
+      this.todos = this.todos.filter((t) => t.id !== todo.id);
+    });
   }
+
+  // get todos() {
+  //   return this.todoDataService.getAllTodos();
+  // }
 }

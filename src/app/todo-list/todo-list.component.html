@@ -1,0 +1,22 @@
+
+  <!-- *ngIf="todos.length > 0": only show the section element and all its children when there is at least one todo -->
+  <section class="main" *ngIf="todos.length > 0">
+      <ul class="todo-list">
+         <!-- Within that section, we ask Angular to generate an li element for each todo: -->
+        <li *ngFor="let todo of todos" [class.completed]="todo.complete">
+          <!-- *ngFor="let todo of todos": loop over all todo’s and assign current todo to a variable called todo for each iteration
+           [class.completed]="todo.complete": apply CSS class completed to li element when todo.complete is truthy -->
+
+        <app-todo-list-item [todo]="todo" (toggleComplete)="onToggleTodoComplete($event)" (remove)="onRemoveTodo($event)"> 
+        </app-todo-list-item> 
+        
+        </li>
+      </ul>
+    </section>
+
+
+   <!-- adding TodoListItemComponent to the template already allows us to explore what API the TodoListItemComponent should offer. 
+    This makes it easier for us to write the TodoListItemComponent in the next section because we now know what input and outputs we would expect TodoListItemComponent to have. -->
+   
+    <!-- We pass in the todo item through the todo property using the [todo] input property syntax and attach event handlers to the events we would expect the TodoListItemComponent to emit,
+       such as the toggleComplete event and the remove event. -->

@@ -1,0 +1,14 @@
+smart and dumb components. 
+Decoupling the TodoListHeaderComponent from the TodoDataService makes the TodoListHeaderComponent a dumb component.
+A dumb component is not aware of what happens outside of itself. 
+It only receives input via property bindings and only emits output data as events.
+
+Using smart and dumb components is a good practice. 
+It greatly improves separation of concerns, making your application easier to understand and maintain. 
+If your database or back-end API changes, you don’t have to worry about your dumb components. 
+It also makes your dumb components more flexible, allowing you to reuse them more easily in different situations. 
+If your application needs the same component twice, where one time it needs to write to a back-end database and another time it needs to write to an in-memory database, a dumb component allows you to accomplish exactly that.
+
+The TodoListHeaderComponent is a dumb component and the AppComponent remains responsible for storing the todo using the TodoDataService.
+
+
