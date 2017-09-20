@@ -1,0 +1,39 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<section class="todoapp">
+  <header class="header">
+    <h1>Todos</h1>
+    <input class="new-todo" placeholder="What needs to be done?" 
+    autofocus="" [(ngModel)]="newTodo.title" (keyup.enter)="addTodo()">
+  </header>
+
+  <!-- *ngIf="todos.length > 0": only show the section element and all its children when there is at least one todo -->
+ <section class="main" *ngIf="todos.length > 0">
+   <ul class="todo-list">
+      <!-- Within that section, we ask Angular to generate an li element for each todo: -->
+     <li *ngFor="let todo of todos" [class.completed]="todo.complete">
+       <!-- *ngFor="let todo of todos": loop over all todo’s and assign current todo to a variable called todo for each iteration
+        [class.completed]="todo.complete": apply CSS class completed to li element when todo.complete is truthy -->
+       <div class="view">
+         <!-- (click)="toggleTodoComplete(todo)": execute toggleTodoComplete(todo) when the checkbox is clicked
+         [checked]="todo.complete": assign the value of todo.complete to the property checked of the element
+         (click)="removeTodo(todo)": execute removeTodo(todo) when the destroy button is clicked -->
+        <input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">
+      <label>{{todo.title}}</label>
+      <button class="destroy" (click)="removeTodo(todo)"></button> 
+      </div>
+     </li>
+   </ul>
+ </section>
+
+ <footer class="footer" *ngIf="todos.length > 0">
+   <span class="todo-count"><strong>{{todos.length}}</strong>
+  {{todos.length == 1 ? 'item' : 'items'}} left
+  </span>
+ </footer>
+</section>
+
+
+
+
+
